@@ -1,3 +1,28 @@
+body {
+    @apply bg-background;
+    @apply text-content;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        --primary: 166 0 255;
+        --secondary: 237 28 99;
+        --accent: 247 229 30;
+        --content: 0 0 0;
+        --background: 255 255 255;
+        --edge: 238 238 238;
+    }
+}
+
+.theme-dark {
+    --primary: 166 0 255;
+    --secondary: 237 28 99;
+    --accent: 247 229 30;
+    --content: 255 255 255;
+    --background: 24 24 27;
+    --edge: 60 60 67;
+}
