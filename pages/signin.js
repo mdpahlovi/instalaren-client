@@ -32,6 +32,7 @@ const Signin = () => {
         signInByGoogle()
             .then(({ user }) => {
                 toast.success("Google Signin Done");
+                setLoading(false);
             })
             .catch(({ message }) => {
                 toast.error(message);
@@ -42,6 +43,7 @@ const Signin = () => {
         signInByFacebook()
             .then(({ user }) => {
                 toast.success("Facebook Signin Done");
+                setLoading(false);
             })
             .catch(({ message }) => {
                 toast.error(message);
@@ -52,6 +54,7 @@ const Signin = () => {
         signInByGithub()
             .then(({ user }) => {
                 toast.success("Github Signin Done");
+                setLoading(false);
             })
             .catch(({ message }) => {
                 toast.error(message);
@@ -74,13 +77,13 @@ const Signin = () => {
                     </div>
                     <div className="grid grid-cols-3 gap-4">
                         <Button onClick={handelGoogleSignIn} variant="outlined">
-                            Google
+                            {loading ? "Loading..." : "Google"}
                         </Button>
                         <Button onClick={handelFacebookSignIn} variant="outlined">
-                            Facebook
+                            {loading ? "Loading..." : "Facebook"}
                         </Button>
                         <Button onClick={handelGithubSignIn} variant="outlined">
-                            Github
+                            {loading ? "Loading..." : "Github"}
                         </Button>
                     </div>
                     <div className="line-x my-4">
@@ -96,7 +99,7 @@ const Signin = () => {
                             </Button>
                         </div>
                         <Button type="submit" fullWidth>
-                            Signin
+                            {loading ? "Loading..." : "Signin"}
                         </Button>
                         <Typography className="flex justify-center">
                             Don't have an account?

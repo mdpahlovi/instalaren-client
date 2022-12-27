@@ -28,6 +28,19 @@ export default function App({ Component, pageProps }) {
         checkbox: {
             defaultProps: { color: "purple" },
         },
+        menu: {
+            styles: {
+                base: {
+                    menu: {
+                        bg: "bg-background",
+                        border: "border border-edge",
+                        boxShadow: "shadow-none",
+                        color: "text-content/70",
+                        fontSize: "",
+                    },
+                },
+            },
+        },
     };
 
     return (

@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { MobileNav, Typography, Button, IconButton } from "@material-tailwind/react";
+import { MobileNav, Typography, Button, IconButton, Avatar, Menu, MenuHandler, MenuList, MenuItem } from "@material-tailwind/react";
 import { useRouter } from "next/router";
 import ActiveLink from "../ActiveLink";
 import Image from "next/image";
 import Logo from "../../public/logo.jpg";
 import ThemeSwitcher from "../ThemeSwitcher";
 import Link from "next/link";
+import { useAuth } from "../../hooks/useAuthContext";
 
 const nan_items = [
     { icon: "", link: "Home" },
@@ -37,9 +38,7 @@ export default function NavBar() {
                     <Image src={Logo} alt="logo" className="w-40 lg:w-44" />
                     <div className="hidden lg:block">{navList}</div>
                     <div className="hidden items-center gap-4 lg:inline-flex">
-                        <Link href="/signin">
-                            <Button size="sm">SignIn</Button>
-                        </Link>
+                        <AuthMenu placement="bottom-end" />
                         <ThemeSwitcher />
                     </div>
                     <div className="inline-flex gap-4 lg:hidden">
@@ -71,13 +70,44 @@ export default function NavBar() {
                 </div>
                 <MobileNav className="mt-6 rounded-lg bg-background p-6 shadow-lg lg:hidden" open={openNav}>
                     {navList}
-                    <Link href="/signin">
-                        <Button size="sm" fullWidth>
-                            SignIn
-                        </Button>
-                    </Link>
+                    <AuthMenu placement="right-start" fullWidth />
                 </MobileNav>
             </div>
         </nav>
     );
 }
+
+const AuthMenu = ({ placement, fullWidth }) => {
+    const { authUser, loading, signout } = useAuth();
+    return (
+        <>
+            {loading ? (
+                <Button size="sm" fullWidth={fullWidth ? true : false}>
+                    Loading...
+                </Button>
+            ) : authUser?.uid ? (
+                <Menu placement={placement}>
+                    <MenuHandler>
+                        <Avatar
+                            src={authUser.photoURL}
+                            alt={authUser.displayName}
+                            className="border border-primary cursor-pointer"
+                            size="sm"
+                            variant="circular"
+                        />
+                    </MenuHandler>
+                    <MenuList>
+                        <MenuItem>{authUser.displayName ? authUser.displayName : "No Name"}</MenuItem>
+                        <MenuItem onClick={signout}>Sign Out</MenuItem>
+                    </MenuList>
+                </Menu>
+            ) : (
+                <Link href="/signin">
+                    <Button size="sm" fullWidth={fullWidth ? true : false}>
+                        SignIn
+                    </Button>
+                </Link>
+            )}
+        </>
+    );
+};
