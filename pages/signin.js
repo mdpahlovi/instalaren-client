@@ -102,7 +102,7 @@ const Signin = () => {
                             {loading ? "Loading..." : "Signin"}
                         </Button>
                         <Typography className="flex justify-center">
-                            Don't have an account?
+                            Donot have an account?
                             <Link href="/signup" className="ml-1 font-bold underline">
                                 Signup
                             </Link>
