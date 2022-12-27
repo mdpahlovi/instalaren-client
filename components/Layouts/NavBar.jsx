@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { MobileNav, Typography, Button, IconButton, Avatar, Menu, MenuHandler, MenuList, MenuItem } from "@material-tailwind/react";
+import { MobileNav, Button, IconButton, Avatar, Menu, MenuHandler, MenuList, MenuItem } from "@material-tailwind/react";
 import { useRouter } from "next/router";
 import ActiveLink from "../ActiveLink";
-import Image from "next/image";
 import Logo from "../../public/logo.jpg";
 import ThemeSwitcher from "../ThemeSwitcher";
 import Link from "next/link";
@@ -35,7 +34,9 @@ export default function NavBar() {
         <nav className="border-b border-edge bg-background">
             <div className="container relative z-10 mx-auto h-16 px-6 lg:h-20">
                 <div className="flex h-full items-center justify-between">
-                    <Image src={Logo} alt="logo" className="w-40 lg:w-44" />
+                    <Link href="/">
+                        <Avatar src={Logo} alt="logo" className="w-40 lg:w-44" />
+                    </Link>
                     <div className="hidden lg:block">{navList}</div>
                     <div className="hidden items-center gap-4 lg:inline-flex">
                         <AuthMenu placement="bottom-end" />

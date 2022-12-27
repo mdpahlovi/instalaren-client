@@ -30,7 +30,6 @@ export const UserContext = ({ children }) => {
     };
     const updateUserProfile = (name, photo = "https://cdn-icons-png.flaticon.com/512/16/16363.png") => {
         setLoading(true);
-        console.log(name, photo);
         return updateProfile(auth.currentUser, {
             displayName: name,
             photoURL: photo,

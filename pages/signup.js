@@ -2,6 +2,7 @@ import { Button, Card, CardHeader, Input, Checkbox, Typography } from "@material
 import Link from "next/link";
 import React from "react";
 import { toast } from "react-toastify";
+import { setAuthUser } from "../requests/user";
 import Main from "../components/Layouts/Main";
 import { useAuth } from "../hooks/useAuthContext";
 
@@ -22,9 +23,10 @@ const Signup = () => {
         }
 
         createUser(email, password)
-            .then(() => {
+            .then(({ user }) => {
                 updateUserProfile(name)
                     .then(() => {
+                        setAuthUser(user, name);
                         toast.success("Account Created");
                         setLoading(false);
                     })
