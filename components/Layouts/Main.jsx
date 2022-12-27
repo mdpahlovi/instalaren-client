@@ -13,7 +13,7 @@ const Main = ({ title, children, className }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <NavBar />
-            <main className={`min-h-screen container mx-auto px-6 ${className}`}>{children}</main>
+            <main className={`container mx-auto my-12 sm:my-14 lg:my-16 px-6 ${className}`}>{children}</main>
             <Footer />
         </>
     );

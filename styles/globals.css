@@ -26,3 +26,9 @@ body {
     --background: 24 24 27;
     --edge: 60 60 67;
 }
+
+@layer components {
+    .line-x {
+        @apply flex items-center before:flex-1 before:border-t-2 before:border-edge after:flex-1 after:border-t-2 after:border-edge;
+    }
+}

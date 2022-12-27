@@ -14,7 +14,7 @@ const ThemeSwitcher = () => {
         }
     };
 
-    return <Switch circleProps={<i className="fas fa-heart" />} onChange={handelTheme} checked={theme === "dark" ? true : false} />;
+    return <Switch size="lg" onChange={handelTheme} checked={theme === "dark" ? true : false} />;
 };
 
 export default ThemeSwitcher;

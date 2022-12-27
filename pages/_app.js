@@ -14,9 +14,19 @@ export default function App({ Component, pageProps }) {
                 color: "purple",
             },
         },
+        cardHeader: {
+            defaultProps: { color: "purple", shadow: false },
+        },
+        input: {
+            defaultProps: { color: "purple", size: "lg" },
+        },
+        checkbox: {
+            defaultProps: { color: "purple" },
+        },
     };
 
     const myTheme = useTheme();
+    console.log(myTheme);
 
     return (
         <ThemeValueProvider>
