@@ -37,7 +37,7 @@ export default function NavBar() {
                     <Image src={Logo} alt="logo" className="w-40 lg:w-44" />
                     <div className="hidden lg:block">{navList}</div>
                     <div className="hidden items-center gap-4 lg:inline-flex">
-                        <Link href="signin">
+                        <Link href="/signin">
                             <Button size="sm">SignIn</Button>
                         </Link>
                         <ThemeSwitcher />
@@ -69,11 +69,13 @@ export default function NavBar() {
                         <ThemeSwitcher />
                     </div>
                 </div>
-                <MobileNav className="rounded-lg bg-background p-6 shadow-lg lg:hidden" open={openNav}>
+                <MobileNav className="mt-6 rounded-lg bg-background p-6 shadow-lg lg:hidden" open={openNav}>
                     {navList}
-                    <Button size="sm" fullWidth>
-                        <span>Buy Now</span>
-                    </Button>
+                    <Link href="/signin">
+                        <Button size="sm" fullWidth>
+                            SignIn
+                        </Button>
+                    </Link>
                 </MobileNav>
             </div>
         </nav>

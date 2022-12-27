@@ -11,13 +11,13 @@ import {
     signOut,
     updateProfile,
 } from "firebase/auth";
-import app from "../Config/firebase.config";
+import { app } from "../firebase/firebase.config";
 
 export const AuthContext = createContext();
 const auth = getAuth(app);
 
-const UserContext = ({ children }) => {
-    const [user, setUser] = useState(null);
+export const UserContext = ({ children }) => {
+    const [authUser, setAuthUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const googleProvider = new GoogleAuthProvider();
     const facebookProvider = new FacebookAuthProvider();
@@ -28,8 +28,9 @@ const UserContext = ({ children }) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
     };
-    const updateUserProfile = (name, photo) => {
+    const updateUserProfile = (name, photo = "https://cdn-icons-png.flaticon.com/512/16/16363.png") => {
         setLoading(true);
+        console.log(name, photo);
         return updateProfile(auth.currentUser, {
             displayName: name,
             photoURL: photo,
@@ -62,25 +63,15 @@ const UserContext = ({ children }) => {
     };
 
     useEffect(() => {
-        const unSubscribe = onAuthStateChanged(auth, (correntUser) => {
-            setUser(correntUser);
+        const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setAuthUser(currentUser);
             setLoading(false);
         });
         return () => unSubscribe();
     }, []);
 
-    // Get Theme Value
-    const [theme, setTheme] = useState(null);
-    useEffect(() => {
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            setTheme("dark");
-        } else {
-            setTheme("light");
-        }
-    }, []);
-
     const authInfo = {
-        user,
+        authUser,
         loading,
         setLoading,
         createUser,
@@ -90,15 +81,12 @@ const UserContext = ({ children }) => {
         signInByFacebook,
         signInByGithub,
         signout,
-        theme,
-        setTheme,
     };
     return <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>;
 };
 
-const useAuthUser = () => {
+export const useAuth = () => {
     const context = useContext(AuthContext);
+
     return context;
 };
-
-export default useAuthUser;
