@@ -75,7 +75,7 @@ const Signin = () => {
                     <div className="line-x mb-4">
                         <p className="mx-2">SignIn with</p>
                     </div>
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid sm:grid-cols-3 gap-4">
                         <Button onClick={handelGoogleSignIn} variant="outlined">
                             {loading ? "Loading..." : "Google"}
                         </Button>
