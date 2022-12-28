@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
 import { MobileNav, Button, IconButton, Avatar, Menu, MenuHandler, MenuList, MenuItem } from "@material-tailwind/react";
 import { useRouter } from "next/router";
-import ActiveLink from "../ActiveLink";
+import ActiveLink from "./ActiveLink";
 import Logo from "../../public/logo.jpg";
 import ThemeSwitcher from "../ThemeSwitcher";
 import Link from "next/link";
 import { useAuth } from "../../hooks/useAuthContext";
+import { FaHome, FaUserAstronaut } from "react-icons/fa";
+import { MdPermMedia } from "react-icons/md";
+import { SiGooglemessages } from "react-icons/si";
 
 const nan_items = [
-    { icon: "", link: "Home" },
-    { icon: "", link: "Media" },
-    { icon: "", link: "Message" },
-    { icon: "", link: "About" },
+    { icon: <FaHome />, link: "Home" },
+    { icon: <MdPermMedia />, link: "Media" },
+    { icon: <SiGooglemessages />, link: "Message" },
+    { icon: <FaUserAstronaut />, link: "About" },
 ];
 
 export default function NavBar() {
@@ -25,7 +28,7 @@ export default function NavBar() {
     const navList = (
         <div className="mb-4 flex flex-col gap-2 lg:mb-0 lg:flex-row lg:items-center lg:gap-6">
             {nan_items.map((item, index) => (
-                <ActiveLink key={index} pathname={pathname} item={item} />
+                <ActiveLink key={index} pathname={pathname} item={item}></ActiveLink>
             ))}
         </div>
     );

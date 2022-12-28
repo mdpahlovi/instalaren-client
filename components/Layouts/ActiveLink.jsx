@@ -6,7 +6,9 @@ const ActiveLink = ({ pathname, item }) => {
     return (
         <Link
             href={href}
-            className={`${pathname === href ? "border-l-2 pl-4 lg:pl-0 lg:border-l-0 lg:border-b-2 border-primary lg:py-7" : ""} flex items-center gap-1.5`}
+            className={`${
+                pathname === href ? "border-l-2 pl-4 lg:pl-0 lg:border-l-0 lg:border-b-2 border-primary lg:py-[18px]" : ""
+            } flex gap-3 lg:gap-0 lg:flex-col lg:items-center`}
         >
             <span className={`${pathname === href ? "text-primary" : ""} text-lg`}>{icon}</span>
             {link}

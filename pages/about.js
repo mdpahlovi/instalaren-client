@@ -49,7 +49,13 @@ const About = () => {
                         />
                     </div>
                     <div className="relative flex flex-col justify-center items-center gap-6">
-                        <ImageField avatar={avatar} handelImg={handelImg} />
+                        <ImageField
+                            avatar={avatar}
+                            handelImg={handelImg}
+                            className="relative -mt-24 sm:-mt-36 w-max z-10"
+                            size="w-48 sm:w-80 h-48 sm:h-80"
+                            text="Choose your profile"
+                        />
                         <div className="flex flex-col gap-2">
                             <h3 className="text-2xl font-bold text-center">MD Pahlovi</h3>
                             <h3 className="flex justify-center items-center text-content/70 text-center">

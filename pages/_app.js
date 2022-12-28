@@ -14,6 +14,11 @@ export default function App({ Component, pageProps }) {
                 color: "purple",
             },
         },
+        iconButton: {
+            defaultProps: {
+                color: "purple",
+            },
+        },
         switch: {
             defaultProps: {
                 color: "purple",
@@ -24,6 +29,32 @@ export default function App({ Component, pageProps }) {
         },
         input: {
             defaultProps: { color: "purple", size: "lg" },
+            styles: {
+                base: { input: { color: "text-content/70" }, label: { color: "peer-placeholder-shown:text-content/50" } },
+                variants: {
+                    outlined: {
+                        base: {
+                            input: { borderColor: "placeholder-shown:border-edge placeholder-shown:border-t-edge", borderWidth: "placeholder-shown:border-2" },
+                        },
+                    },
+                },
+            },
+        },
+        textarea: {
+            defaultProps: { color: "purple", size: "lg" },
+            styles: {
+                base: { textarea: { color: "text-content/70" }, label: { color: "peer-placeholder-shown:text-content/50" } },
+                variants: {
+                    outlined: {
+                        base: {
+                            textarea: {
+                                borderColor: "placeholder-shown:border-edge placeholder-shown:border-t-edge",
+                                borderWidth: "placeholder-shown:border-2",
+                            },
+                        },
+                    },
+                },
+            },
         },
         checkbox: {
             defaultProps: { color: "purple" },
