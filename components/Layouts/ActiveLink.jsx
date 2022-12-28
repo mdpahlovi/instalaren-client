@@ -6,11 +6,11 @@ const ActiveLink = ({ pathname, item }) => {
     return (
         <Link
             href={href}
-            className={`${
-                pathname === href ? "border-l-2 pl-4 lg:pl-0 lg:border-l-0 lg:border-b-2 border-primary lg:py-[18px]" : ""
-            } flex gap-3 lg:gap-0 lg:flex-col lg:items-center`}
+            className={`group ${
+                pathname === href ? "border-l-2 pl-4 lg:pl-0 lg:border-l-0 lg:border-b-2 border-primary lg:py-[18px] tracking-widest" : "hover:tracking-widest"
+            } flex gap-3 lg:gap-0 lg:flex-col lg:items-center transition-all duration-300`}
         >
-            <span className={`${pathname === href ? "text-primary" : ""} text-lg`}>{icon}</span>
+            <span className={`${pathname === href ? "text-primary" : "group-hover:text-primary"} text-lg`}>{icon}</span>
             {link}
         </Link>
     );

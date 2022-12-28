@@ -4,7 +4,7 @@ import ImageField from "./ImageField";
 
 const InputMedia = () => {
     return (
-        <form className="max-w-4xl mx-auto space-y-4">
+        <form className="w-full lg:w-[960px] mx-auto space-y-4">
             <div className="grid md:grid-cols-[auto_1fr] gap-4 md:gap-8">
                 <ImageField size="w-40 h-40" />
                 <div className="space-y-4">

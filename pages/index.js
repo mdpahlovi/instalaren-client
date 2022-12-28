@@ -4,7 +4,7 @@ import InputMedia from "../components/InputMedia";
 
 export default function Home() {
     return (
-        <Main title="Instalaren" className="my-0">
+        <Main title="Instalaren" className="grid grid-cols-1 gap-12 sm:gap-14 lg:gap-16">
             <Header />
             <InputMedia />
         </Main>
