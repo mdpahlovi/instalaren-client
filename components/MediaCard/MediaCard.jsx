@@ -1,5 +1,6 @@
-import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Input, Typography } from "@material-tailwind/react";
+import { Avatar, Button, Input } from "@material-tailwind/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { FaComments } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuthContext";
@@ -11,6 +12,8 @@ const MediaCard = ({ post, handelReaction }) => {
     const [comment, setComment] = useState("");
     const { authUser } = useAuth();
     const { _id, title, details, thumbnail, date, user_email, comments, likes } = post;
+    const [size, setSize] = useState(2);
+    const { push } = useRouter();
 
     const isLike = (email, likes) => {
         if (likes.length !== 0) {
@@ -30,9 +33,7 @@ const MediaCard = ({ post, handelReaction }) => {
         <div className="flex flex-col gap-4">
             <Avatar src={thumbnail} className="w-full h-64" />
             <div className="space-y-4">
-                <ProfileCard email={user_email} date={date}>
-                    General Electric
-                </ProfileCard>
+                <ProfileCard email={user_email} date={date}></ProfileCard>
                 <div>
                     <h2 className="-mt-1.5 text-2xl text-content font-bold">{title}</h2>
                     <p className="text-content/70 line-clamp-3">{details}</p>
@@ -40,26 +41,32 @@ const MediaCard = ({ post, handelReaction }) => {
                 <div className="grid grid-cols-[auto_auto_auto] gap-4">
                     <Button
                         size="sm"
-                        onClick={() => handelReaction(_id, { likes: isLike(authUser?.email, likes) })}
+                        onClick={() => {
+                            if (authUser?.uid) {
+                                handelReaction(_id, { likes: isLike(authUser?.email, likes) });
+                            } else {
+                                push("/signin");
+                            }
+                        }}
                         variant="outlined"
                         className="text-content"
                         color="gray"
                         fullWidth
                     >
-                        {likes ? (
+                        {likes.length !== 0 ? (
                             <>
                                 <span className="text-primary mr-1">{`(${likes.length})`}</span>
-                                <span>Likes</span>
+                                <span className={likes.find((like) => like.user === authUser?.email) ? "text-primary" : ""}>Likes</span>
                             </>
                         ) : (
                             "Like"
                         )}
                     </Button>
                     <Button size="sm" onClick={() => setOpen(!open)} variant="outlined" className="text-content" color="gray" fullWidth>
-                        {comments ? (
+                        {comments.length !== 0 ? (
                             <>
                                 <span className="text-primary mr-1">{`(${comments.length})`}</span>
-                                <span>Comments</span>
+                                <span className={comments.find((comment) => comment.user === authUser?.email) ? "text-primary" : ""}>Comments</span>
                             </>
                         ) : (
                             "comment"
@@ -77,25 +84,37 @@ const MediaCard = ({ post, handelReaction }) => {
                     <Input
                         onChange={(event) => setComment(event.target.value)}
                         onKeyDown={(event) => {
-                            if (event.key === "Enter") {
-                                handelReaction(_id, { comments: [...(comments ? comments : ""), { user: authUser?.email, comment: comment }] });
+                            if (event.key === "Enter" && authUser?.uid) {
+                                handelReaction(_id, { comments: [...comments, { user: authUser?.email, comment: comment, date: new Date() }] });
+                            } else {
+                                push("/signin");
                             }
                         }}
                         label="Comment"
                         icon={
                             <FaComments
-                                onClick={() => handelReaction(_id, { comments: [...(comments ? comments : ""), { user: authUser?.email, comment: comment }] })}
+                                onClick={() => {
+                                    if (authUser?.uid) {
+                                        handelReaction(_id, { comments: [...comments, { user: authUser?.email, comment: comment, date: new Date() }] });
+                                    } else {
+                                        push("/signin");
+                                    }
+                                }}
                             />
                         }
                     />
                 </div>
                 <div>
-                    {[...Array(4)].map((a, i) => (
-                        <CommentCard key={i} />
+                    {comments.slice(0, size).map((commentCard, i) => (
+                        <CommentCard key={i} commentCard={commentCard} />
                     ))}
-                    <Button variant="outlined" className="mt-2" fullWidth>
-                        Show more comments
-                    </Button>
+                    {comments.length >= 2 ? (
+                        <Button variant="outlined" onClick={() => setSize(size === 2 ? (comments ? comments.length : 0) : 2)} className="mt-2" fullWidth>
+                            {size === 2 ? "Show more comments" : "Show less comments"}
+                        </Button>
+                    ) : (
+                        ""
+                    )}
                 </div>
             </div>
         </div>

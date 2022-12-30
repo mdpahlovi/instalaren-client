@@ -1,10 +1,12 @@
 import { Button, IconButton } from "@material-tailwind/react";
 import ProfileCard from "./ProfileCard";
 
-const CommentCard = () => {
+const CommentCard = ({ commentCard }) => {
+    const { user, comment, date } = commentCard;
+
     return (
-        <ProfileCard comment>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.</p>
+        <ProfileCard comment email={user} date={date}>
+            <p>{comment}</p>
             <div className="flex items-center gap-2">
                 <IconButton size="sm" variant="text" color="gray" className="[&>span]:inline-flex [&>span]:items-center [&>span]:gap-1 text-content/70">
                     <svg className="fill-rose-600" style={{ width: 16, height: 16 }} viewBox="0 0 24 24">

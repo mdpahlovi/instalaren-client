@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { MobileNav, Button, IconButton, Avatar, Menu, MenuHandler, MenuList, MenuItem } from "@material-tailwind/react";
 import { useRouter } from "next/router";
 import ActiveLink from "./ActiveLink";
-import Logo from "../../public/logo.jpg";
 import ThemeSwitcher from "../ThemeSwitcher";
 import Link from "next/link";
 import { useAuth } from "../../hooks/useAuthContext";
@@ -38,7 +37,7 @@ export default function NavBar() {
             <div className="container relative z-10 mx-auto h-16 px-6 lg:h-20">
                 <div className="flex h-full items-center justify-between">
                     <Link href="/">
-                        <Avatar src={Logo} alt="logo" className="w-40 lg:w-44" />
+                        <Avatar src="https://i.ibb.co/Vtkk0CV/logo.jpg" alt="logo" className="w-52 h-10" />
                     </Link>
                     <div className="hidden lg:block">{navList}</div>
                     <div className="hidden items-center gap-4 lg:inline-flex">

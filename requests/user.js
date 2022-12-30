@@ -18,7 +18,7 @@ export const setAuthUser = (user, name, img) => {
 
     axios
         .put(`${apiUrl}/user/${user?.email}`, currentUser)
-        .then(({ data }) => localStorage.setItem("instalaren", data.token))
+        .then((data) => console.log(console.log(data)))
         .catch(({ message }) => toast.error(message));
 };
 
