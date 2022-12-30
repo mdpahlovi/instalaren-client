@@ -16,3 +16,8 @@ export const getPost = async (id) => {
     const response = await axios.get(`${apiUrl}/post/${id}`);
     return response.data;
 };
+
+export const updatePost = async (id, post) => {
+    const response = await axios.put(`${apiUrl}/post/${id}`, post);
+    return response.data;
+};
