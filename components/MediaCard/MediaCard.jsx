@@ -84,10 +84,12 @@ const MediaCard = ({ post, handelReaction }) => {
                     <Input
                         onChange={(event) => setComment(event.target.value)}
                         onKeyDown={(event) => {
-                            if (event.key === "Enter" && authUser?.uid) {
-                                handelReaction(_id, { comments: [...comments, { user: authUser?.email, comment: comment, date: new Date() }] });
-                            } else {
-                                push("/signin");
+                            if (event.key === "Enter") {
+                                if (authUser?.uid) {
+                                    handelReaction(_id, { comments: [...comments, { user: authUser?.email, comment: comment, date: new Date() }] });
+                                } else {
+                                    push("/signin");
+                                }
                             }
                         }}
                         label="Comment"
