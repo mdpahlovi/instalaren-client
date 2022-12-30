@@ -2,6 +2,7 @@ import { Button, Card, CardBody, CardHeader, Checkbox, Input, Typography } from 
 import Link from "next/link";
 import { toast } from "react-toastify";
 import Main from "../components/Layouts/Main";
+import { setAuthUser } from "../requests/user";
 import { useAuth } from "../hooks/useAuthContext";
 
 const Signin = () => {
@@ -15,6 +16,7 @@ const Signin = () => {
 
         signIn(email, password)
             .then(({ user }) => {
+                setAuthUser(user);
                 toast.success("Signin Completed");
             })
             .catch(({ message }) => {
@@ -31,8 +33,8 @@ const Signin = () => {
     const handelGoogleSignIn = () => {
         signInByGoogle()
             .then(({ user }) => {
+                setAuthUser(user);
                 toast.success("Google Signin Done");
-                setLoading(false);
             })
             .catch(({ message }) => {
                 toast.error(message);
@@ -42,8 +44,8 @@ const Signin = () => {
     const handelFacebookSignIn = () => {
         signInByFacebook()
             .then(({ user }) => {
+                setAuthUser(user);
                 toast.success("Facebook Signin Done");
-                setLoading(false);
             })
             .catch(({ message }) => {
                 toast.error(message);
@@ -53,8 +55,8 @@ const Signin = () => {
     const handelGithubSignIn = () => {
         signInByGithub()
             .then(({ user }) => {
+                setAuthUser(user);
                 toast.success("Github Signin Done");
-                setLoading(false);
             })
             .catch(({ message }) => {
                 toast.error(message);

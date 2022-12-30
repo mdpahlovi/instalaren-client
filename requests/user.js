@@ -22,7 +22,7 @@ export const setAuthUser = (user, name, img) => {
         .catch(({ message }) => toast.error(message));
 };
 
-export const getUser = async (user) => {
-    const res = await axios.get(`${apiUrl}/user/${user?.email}`);
+export const getUser = async (email) => {
+    const res = await axios.get(`${apiUrl}/user/${email}`);
     return res.data;
 };
