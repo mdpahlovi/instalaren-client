@@ -7,7 +7,6 @@ import { getUser } from "../../requests/user";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { apiUrl } from "../../requests/url";
-import { withProtected } from "../../hooks/protectedRoute";
 
 const About = () => {
     const [user, setUser] = useState({});
@@ -149,4 +148,4 @@ const About = () => {
     }
 };
 
-export default withProtected(About);
+export default About;

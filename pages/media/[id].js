@@ -7,7 +7,6 @@ import CommentCard from "../../components/MediaCard/CommentCard";
 import { getPost } from "../../requests/posts";
 import { FaComments } from "react-icons/fa";
 import ProfileCard from "../../components/MediaCard/ProfileCard";
-import { withProtected } from "../../hooks/protectedRoute";
 
 const PostDetail = () => {
     const [post, setPost] = useState({});
@@ -78,4 +77,4 @@ const PostDetail = () => {
     }
 };
 
-export default withProtected(PostDetail);
+export default PostDetail;
