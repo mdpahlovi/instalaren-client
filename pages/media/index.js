@@ -20,7 +20,6 @@ const Media = () => {
     }, [refresh]);
 
     const handelReaction = (id, post) => {
-        console.log(id, post);
         updatePost(id, post)
             .then((data) => {
                 setRefresh(!refresh);

@@ -1,13 +1,10 @@
 import { ThemeProvider, useTheme } from "@material-tailwind/react";
 import { ThemeValueProvider } from "../hooks/useTheme";
 import "../styles/globals.css";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../hooks/useAuthContext";
+import Toastify from "../components/Toastify";
 
 export default function App({ Component, pageProps }) {
-    const { theme } = useTheme();
-
     const mt_theme = {
         button: {
             defaultProps: {
@@ -30,7 +27,11 @@ export default function App({ Component, pageProps }) {
         input: {
             defaultProps: { color: "purple", size: "lg" },
             styles: {
-                base: { input: { color: "text-content/70" }, label: { color: "peer-placeholder-shown:text-content/50" } },
+                base: {
+                    container: { minWidth: "min-w-[320px]" },
+                    input: { color: "text-content/70" },
+                    label: { color: "peer-placeholder-shown:text-content/50" },
+                },
                 variants: {
                     outlined: {
                         base: {
@@ -78,7 +79,7 @@ export default function App({ Component, pageProps }) {
         <UserContext>
             <ThemeValueProvider>
                 <ThemeProvider value={mt_theme}>
-                    <ToastContainer position="top-right" autoClose={1500} theme={theme} />
+                    <Toastify />
                     <Component {...pageProps} />
                 </ThemeProvider>
             </ThemeValueProvider>

@@ -4,14 +4,20 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Main from "../../components/Layouts/Main";
 import CommentCard from "../../components/MediaCard/CommentCard";
-import { getPost } from "../../requests/posts";
+import { getPost, updatePost } from "../../requests/posts";
 import { FaComments } from "react-icons/fa";
 import ProfileCard from "../../components/MediaCard/ProfileCard";
+import { useAuth } from "../../hooks/useAuthContext";
+import { isLike } from "../../utilities/isLike";
+import { CirclesWithBar } from "react-loader-spinner";
 
 const PostDetail = () => {
     const [post, setPost] = useState({});
+    const [comment, setComment] = useState("");
     const [loading, setLoading] = useState(true);
+    const [refresh, setRefresh] = useState(false);
     const { query } = useRouter();
+    const { authUser } = useAuth();
 
     useEffect(() => {
         getPost(query?.id)
@@ -20,56 +26,123 @@ const PostDetail = () => {
                 setLoading(false);
             })
             .catch(({ message }) => toast.error(message));
-    }, [query?.id]);
+    }, [query?.id, refresh]);
+
+    const handelReaction = (id, post) => {
+        updatePost(id, post)
+            .then((data) => {
+                setRefresh(!refresh);
+                toast.success("Reaction Updated");
+            })
+            .catch(({ message }) => toast.error(message));
+    };
 
     if (loading) {
-        return <Main></Main>;
+        return (
+            <Main>
+                <div className="w-full h-96 flex justify-center items-center">
+                    <CirclesWithBar
+                        height="200"
+                        width="200"
+                        color="#A600FF"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                        visible={true}
+                        outerCircleColor=""
+                        innerCircleColor=""
+                        barColor=""
+                        ariaLabel="circles-with-bar-loading"
+                    />
+                </div>
+            </Main>
+        );
     } else {
-        const { title, details, user_email, date, thumbnail } = post;
+        const { _id, title, details, user_email, date, thumbnail, comments, likes } = post;
         return (
             <Main className="grid grid-cols-1 gap-8">
-                <h2 className="text-4xl font-bold text-content">{title}</h2>
-                <Avatar src={thumbnail} className="w-screen h-96 lg:max-w-3xl" />
-                <div className="grid grid-cols-[1fr_auto] lg:gap-6">
-                    <div className="flex flex-col gap-4">
-                        <div className="lg:hidden">
-                            <ProfileCard comment email={user_email} date={date}>
-                                <div className="my-2 flex gap-4">
-                                    <Button size="sm" color="light-green">
-                                        Connect
-                                    </Button>
-                                    <Button size="sm">Message</Button>
-                                </div>
-                            </ProfileCard>
-                        </div>
-                        <p>{details}</p>
-                        <div className="flex flex-wrap items-center gap-4">
-                            <div>
-                                <span>20</span>Like
+                <h2 className="text-4xl font-bold text-content col-span-full">{title}</h2>
+                <Avatar src={thumbnail} className="w-full lg:max-w-3xl h-96" />
+                <div className="flex flex-col gap-4">
+                    <div className="sm:max-w-screen-sm">
+                        <ProfileCard comment email={user_email} date={date}>
+                            <div className="my-2 inline-flex gap-4">
+                                <Button size="sm" color="light-green">
+                                    Connect
+                                </Button>
+                                <Button size="sm">Message</Button>
                             </div>
-                            <div className="border-l-2 sm:border-x-2 border-edge pl-4 sm:px-4">
-                                <span>30</span>Comment
-                            </div>
-                            <div>
-                                <Input label="Comment" className="w-72 md:w-96" icon={<FaComments />} />
-                            </div>
-                        </div>
-                        <div className="grid md:grid-cols-2 gap-4">
-                            {[...Array(10)].map((a, i) => (
-                                <div key={i} className="bg-content/5 p-4 rounded-lg">
-                                    <CommentCard />
-                                </div>
-                            ))}
-                        </div>
+                        </ProfileCard>
                     </div>
-                    <div className="hidden w-max h-max shadow-lg rounded-lg p-6 lg:flex flex-col items-center">
-                        <Avatar src="https://randomuser.me/api/portraits/men/9.jpg" alt="Bonnie image" variant="circular" className="w-24 h-24" />
-                        <h5 className="text-xl font-medium text-content mt-2">Bonnie Green</h5>
-                        <span className="text-sm text-content/50">Visual Designer</span>
-                        <div className="flex space-x-3 mt-4">
-                            <Button color="light-green">Connect</Button>
-                            <Button>Message</Button>
+                    <p>{details}</p>
+                    <div className="flex flex-col md:flex-row md:items-center md:w-max gap-4">
+                        <div className="flex gap-4">
+                            <Button
+                                size="sm"
+                                onClick={() => {
+                                    if (authUser?.uid) {
+                                        handelReaction(_id, { likes: isLike(authUser?.email, likes) });
+                                    } else {
+                                        push("/signin");
+                                    }
+                                }}
+                                variant="outlined"
+                                className="text-content w-max h-max"
+                                color="gray"
+                                fullWidth
+                            >
+                                {likes.length !== 0 ? (
+                                    <>
+                                        <span className="text-primary mr-1">{`(${likes.length})`}</span>
+                                        <span className={likes.find((like) => like.user === authUser?.email) ? "text-primary" : ""}>Likes</span>
+                                    </>
+                                ) : (
+                                    "Like"
+                                )}
+                            </Button>
+                            <Button size="sm" variant="outlined" className="text-content w-max h-max" color="gray" fullWidth>
+                                {comments.length !== 0 ? (
+                                    <>
+                                        <span className="text-primary mr-1">{`(${comments.length})`}</span>
+                                        <span className={comments.find((comment) => comment.user === authUser?.email) ? "text-primary" : ""}>Comments</span>
+                                    </>
+                                ) : (
+                                    "comment"
+                                )}
+                            </Button>
                         </div>
+                        <Input
+                            onChange={(event) => setComment(event.target.value)}
+                            onKeyDown={(event) => {
+                                if (event.key === "Enter") {
+                                    if (authUser?.uid) {
+                                        handelReaction(_id, { comments: [...comments, { user: authUser?.email, comment: comment, date: new Date() }] });
+                                    } else {
+                                        push("/signin");
+                                    }
+                                }
+                            }}
+                            label="Comment"
+                            icon={
+                                <FaComments
+                                    onClick={() => {
+                                        if (authUser?.uid) {
+                                            handelReaction(_id, {
+                                                comments: [...comments, { user: authUser?.email, comment: comment, date: new Date() }],
+                                            });
+                                        } else {
+                                            push("/signin");
+                                        }
+                                    }}
+                                />
+                            }
+                        />
+                    </div>
+                    <div className="mt-2 grid md:grid-cols-2 gap-4">
+                        {comments.map((commentCard, i) => (
+                            <div key={i} className="bg-content/5 p-4 rounded-lg">
+                                <CommentCard commentCard={commentCard} />
+                            </div>
+                        ))}
                     </div>
                 </div>
             </Main>

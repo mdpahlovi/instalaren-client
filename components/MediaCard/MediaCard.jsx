@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { FaComments } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuthContext";
+import { isLike } from "../../utilities/isLike";
 import CommentCard from "./CommentCard";
 import ProfileCard from "./ProfileCard";
 
@@ -14,20 +15,6 @@ const MediaCard = ({ post, handelReaction }) => {
     const { _id, title, details, thumbnail, date, user_email, comments, likes } = post;
     const [size, setSize] = useState(2);
     const { push } = useRouter();
-
-    const isLike = (email, likes) => {
-        if (likes.length !== 0) {
-            const currentUser = likes.find((like) => like.user === email);
-            const restUser = likes.filter((like) => like.user !== email);
-            if (currentUser?.like) {
-                return [...restUser];
-            } else {
-                return [...likes, { user: email, like: "1" }];
-            }
-        } else {
-            return [{ user: email, like: "1" }];
-        }
-    };
 
     return (
         <div className="flex flex-col gap-4">
