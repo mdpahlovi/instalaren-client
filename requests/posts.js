@@ -18,6 +18,16 @@ export const getPost = async (id) => {
 };
 
 export const updatePost = async (id, post) => {
+    if (post.likes) {
+        post.total_likes = post.likes.length;
+    } else if (post.comments) {
+        post.total_comments = post.comments.length;
+    }
     const response = await axios.put(`${apiUrl}/post/${id}`, post);
+    return response.data;
+};
+
+export const getTopPost = async (size) => {
+    const response = await axios.get(`${apiUrl}/top-post?size=${size}`);
     return response.data;
 };

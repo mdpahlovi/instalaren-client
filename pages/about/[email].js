@@ -29,10 +29,12 @@ const About = () => {
     const handelSubmit = (event) => {
         event.preventDefault();
         const form = event.target;
+        const name = form.name.value;
+        const avatar = form.avatar.value;
         const location = form.location.value;
         const education = form.education.value;
 
-        const user = { location, education };
+        const user = { name, avatar, location, education };
         axios
             .put(`${apiUrl}/user/${query?.email}`, user)
             .then((data) => {
@@ -121,12 +123,14 @@ const About = () => {
                             <Button color="red" onClick={() => setOpen(!open)}>
                                 Edit Details
                             </Button>
-                            <Dialog open={open} handler={() => setOpen(!open)} size="xs">
+                            <Dialog open={open} handler={() => setOpen(!open)} className="min-w-full sm:min-w-[448px]">
                                 <DialogHeader>Please add your details</DialogHeader>
                                 <form onSubmit={handelSubmit}>
-                                    <DialogBody className="flex flex-col gap-4" divider>
-                                        <Input name="location" label="Edit Location" />
-                                        <Input name="education" label="Edit Education" />
+                                    <DialogBody className="flex flex-col gap-4 bg-background" divider>
+                                        <Input name="name" label="Edit Name" defaultValue={name} />
+                                        <Input name="avatar" label="Edit PhotoURL" defaultValue={avatar} />
+                                        <Input name="location" label="Edit Location" defaultValue={location} />
+                                        <Input name="education" label="Edit Education" defaultValue={education} />
                                     </DialogBody>
                                     <DialogFooter>
                                         <Button variant="text" color="red" onClick={() => setOpen(!open)} className="mr-1">

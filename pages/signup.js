@@ -12,7 +12,7 @@ const Signup = () => {
     const handelSubmit = (event) => {
         event.preventDefault();
         const form = event.target;
-        const name = `${form.fast_name.value} ${form.last_name.value}`;
+        const name = form.name.value;
         const email = form.email.value;
         const password = form.password.value;
         const confirmPassword = form.confirm_password.value;
@@ -51,10 +51,7 @@ const Signup = () => {
                     </Typography>
                 </CardHeader>
                 <form onSubmit={handelSubmit} className="flex flex-col gap-4 p-6">
-                    <div className="grid sm:grid-cols-2 gap-4">
-                        <Input type="text" name="fast_name" label="Fast Name" />
-                        <Input type="text" name="last_name" label="Last Name" />
-                    </div>
+                    <Input type="text" name="name" label="Name" />
                     <Input type="email" name="email" label="Email" />
                     <Input type="password" name="password" label="Password" />
                     <Input type="password" name="confirm_password" label="Confirm Password" />
