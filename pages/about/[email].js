@@ -7,6 +7,7 @@ import { getUser } from "../../requests/user";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { apiUrl } from "../../requests/url";
+import { Protect } from "../../components/ProtectedRoute";
 
 const About = () => {
     const [user, setUser] = useState({});
@@ -118,38 +119,34 @@ const About = () => {
                         <Button color="light-green">Connect</Button>
                         <Button>Message</Button>
                     </div>
-                    {!avatar || !name || !location || !education ? (
-                        <Fragment>
-                            <Button color="red" onClick={() => setOpen(!open)}>
-                                Edit Details
-                            </Button>
-                            <Dialog open={open} handler={() => setOpen(!open)} className="min-w-full sm:min-w-[448px]">
-                                <DialogHeader>Please add your details</DialogHeader>
-                                <form onSubmit={handelSubmit}>
-                                    <DialogBody className="flex flex-col gap-4 bg-background" divider>
-                                        <Input name="name" label="Edit Name" defaultValue={name} />
-                                        <Input name="avatar" label="Edit PhotoURL" defaultValue={avatar} />
-                                        <Input name="location" label="Edit Location" defaultValue={location} />
-                                        <Input name="education" label="Edit Education" defaultValue={education} />
-                                    </DialogBody>
-                                    <DialogFooter>
-                                        <Button variant="text" color="red" onClick={() => setOpen(!open)} className="mr-1">
-                                            Cancel
-                                        </Button>
-                                        <Button type="submit" color="green" onClick={() => setOpen(!open)}>
-                                            Confirm
-                                        </Button>
-                                    </DialogFooter>
-                                </form>
-                            </Dialog>
-                        </Fragment>
-                    ) : (
-                        ""
-                    )}
+                    <Fragment>
+                        <Button color="red" onClick={() => setOpen(!open)}>
+                            Edit Details
+                        </Button>
+                        <Dialog open={open} handler={() => setOpen(!open)} className="min-w-full sm:min-w-[448px]">
+                            <DialogHeader>Please add your details</DialogHeader>
+                            <form onSubmit={handelSubmit}>
+                                <DialogBody className="flex flex-col gap-4 bg-background" divider>
+                                    <Input name="name" label="Edit Name" defaultValue={name} />
+                                    <Input name="avatar" label="Edit PhotoURL" defaultValue={avatar} />
+                                    <Input name="location" label="Edit Location" defaultValue={location} />
+                                    <Input name="education" label="Edit Education" defaultValue={education} />
+                                </DialogBody>
+                                <DialogFooter>
+                                    <Button variant="text" color="red" onClick={() => setOpen(!open)} className="mr-1">
+                                        Cancel
+                                    </Button>
+                                    <Button type="submit" color="green" onClick={() => setOpen(!open)}>
+                                        Confirm
+                                    </Button>
+                                </DialogFooter>
+                            </form>
+                        </Dialog>
+                    </Fragment>
                 </div>
             </Main>
         );
     }
 };
 
-export default About;
+export default Protect(About);
