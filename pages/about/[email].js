@@ -7,7 +7,7 @@ import { getUser } from "../../requests/user";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { apiUrl } from "../../requests/url";
-import { Protect } from "../../components/ProtectedRoute";
+import { CirclesWithBar } from "react-loader-spinner";
 
 const About = () => {
     const [user, setUser] = useState({});
@@ -149,4 +149,32 @@ const About = () => {
     }
 };
 
-export default Protect(About);
+const Protect = () => {
+    const { authUser } = useAuth();
+    const router = useRouter();
+
+    if (!authUser?.uid) {
+        router.replace("/signin");
+        return (
+            <Main>
+                <div className="w-full h-80 flex justify-center items-center">
+                    <CirclesWithBar
+                        height="200"
+                        width="200"
+                        color="#A600FF"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                        visible={true}
+                        outerCircleColor=""
+                        innerCircleColor=""
+                        barColor=""
+                        ariaLabel="circles-with-bar-loading"
+                    />
+                </div>
+            </Main>
+        );
+    }
+    return <About />;
+};
+
+export default Protect;

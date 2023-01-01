@@ -10,7 +10,6 @@ import ProfileCard from "../../components/MediaCard/ProfileCard";
 import { useAuth } from "../../hooks/useAuthContext";
 import { isLike } from "../../utilities/isLike";
 import { CirclesWithBar } from "react-loader-spinner";
-import { Protect } from "../../components/ProtectedRoute";
 
 const PostDetail = () => {
     const [post, setPost] = useState({});
@@ -151,4 +150,32 @@ const PostDetail = () => {
     }
 };
 
-export default Protect(PostDetail);
+const Protect = () => {
+    const { authUser } = useAuth();
+    const router = useRouter();
+
+    if (!authUser?.uid) {
+        router.replace("/signin");
+        return (
+            <Main>
+                <div className="w-full h-80 flex justify-center items-center">
+                    <CirclesWithBar
+                        height="200"
+                        width="200"
+                        color="#A600FF"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                        visible={true}
+                        outerCircleColor=""
+                        innerCircleColor=""
+                        barColor=""
+                        ariaLabel="circles-with-bar-loading"
+                    />
+                </div>
+            </Main>
+        );
+    }
+    return <PostDetail />;
+};
+
+export default Protect;
