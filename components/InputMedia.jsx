@@ -31,7 +31,7 @@ const InputMedia = () => {
         const title = form.title.value;
         const details = form.details.value;
         const date = new Date();
-        const post = { title, thumbnail, details, date, user_email: authUser?.email };
+        const post = { title, thumbnail, details, date, user_email: authUser?.email, likes: [], total_likes: 0, comments: [], total_comments: 0 };
 
         addPost(post)
             .then(({ message }) => {
